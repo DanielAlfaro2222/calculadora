@@ -7,10 +7,10 @@ class Calculator {
         this.buttonEqual = container.querySelector(
             ".container-buttons-calculator__btn--equal"
         );
-        this.dispĺay = container.querySelector(
-            ".container-display-calculator__paragraph"
-        );
-        this.symbols = [
+        this.operator = "";
+        this.previousResult = container.querySelector("#prev-value");
+        this.currentResult = container.querySelector("#current-value");
+        this.operators = [
             ...container.querySelectorAll(
                 ".container-buttons-calculator__btn--symbol"
             ),
@@ -25,47 +25,63 @@ class Calculator {
             num.addEventListener("click", () => this.mostrarNumero(num));
         });
 
-        this.symbols.forEach((symbol) => {
-            symbol.addEventListener("click", () => this.mostrarSimbolo(symbol));
+        this.operators.forEach((operator) => {
+            operator.addEventListener("click", () => this.mostrarOperacion(operator));
         });
 
         this.clearButton.addEventListener("click", () => this.limpiarPantalla());
 
-        this.buttonEqual.addEventListener("click", () => this.ejecutarOperacion());
+        this.buttonEqual.addEventListener("click", () =>
+            this.calcular(
+                this.operator,
+                this.previousResult.textContent,
+                this.currentResult.textContent
+            )
+        );
     }
 
     mostrarNumero(num) {
-        if (
-            this.dispĺay.textContent !== "0" &&
-            this.dispĺay.textContent !== "Syntax error"
-        ) {
-            this.dispĺay.textContent += num.textContent;
-        } else if (
-            num.textContent !== "00" &&
-            this.dispĺay.textContent !== "Syntax error"
-        ) {
-            this.dispĺay.textContent = num.textContent;
+        if (this.currentResult.textContent !== "0") {
+            this.currentResult.textContent += num.textContent;
+        } else {
+            this.currentResult.textContent = num.textContent;
         }
     }
 
-    mostrarSimbolo(simbolo) {
-        if (this.dispĺay.textContent !== "Syntax error") {
-            this.dispĺay.textContent += simbolo.textContent;
+    mostrarOperacion(operador) {
+        if (this.currentResult !== "0") {
+            this.operator = operador.textContent;
+            this.previousResult.textContent = `${this.currentResult.textContent} ${this.operator}`;
+            this.currentResult.textContent = "";
         }
     }
 
     limpiarPantalla() {
-        this.dispĺay.textContent = "0";
+        this.currentResult.textContent = "0";
+        this.previousResult.textContent = "";
     }
 
-    ejecutarOperacion() {
-        try {
-            if (this.dispĺay.textContent !== "0") {
-                let resultado = eval(this.dispĺay.textContent);
-                this.dispĺay.textContent = resultado;
-            }
-        } catch {
-            this.dispĺay.textContent = "Syntax error";
+    calcular(operador, numeroAnterior, numeroActual) {
+        if (operador === "+") {
+            this.currentResult.textContent = `${Number(numeroAnterior.split(" ")[0]) + Number(numeroActual)
+                }`;
+            this.previousResult.textContent = "";
+            this.operator = "";
+        } else if (operador === "*") {
+            this.currentResult.textContent = `${Number(numeroAnterior.split(" ")[0]) * Number(numeroActual)
+                }`;
+            this.previousResult.textContent = "";
+            this.operator = "";
+        } else if (operador === "-") {
+            this.currentResult.textContent = `${Number(numeroAnterior.split(" ")[0]) - Number(numeroActual)
+                }`;
+            this.previousResult.textContent = "";
+            this.operator = "";
+        } else {
+            this.currentResult.textContent = `${Number(numeroAnterior.split(" ")[0]) / Number(numeroActual)
+                }`;
+            this.previousResult.textContent = "";
+            this.operator = "";
         }
     }
 }
