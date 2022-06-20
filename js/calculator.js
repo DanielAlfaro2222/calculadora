@@ -88,28 +88,27 @@ class Calculator {
     calcular(operador, numeroAnterior, numeroActual) {
         numeroAnterior = Number(numeroAnterior.split(" ")[0]);
         numeroActual = Number(numeroActual);
-        let operacion;
+
+        function verifyResultIsNaN(operacion) {
+            return isNaN(operacion) ? "Syntax error" : `${operacion}`;
+        }
 
         if (operador === "+") {
-            operacion = numeroAnterior + numeroActual;
-            this.currentResult.textContent = isNaN(operacion)
-                ? "Syntax error"
-                : `${operacion}`;
+            this.currentResult.textContent = verifyResultIsNaN(
+                numeroAnterior + numeroActual
+            );
         } else if (operador === "*") {
-            operacion = numeroAnterior * numeroActual;
-            this.currentResult.textContent = isNaN(operacion)
-                ? "Syntax error"
-                : `${operacion}`;
+            this.currentResult.textContent = verifyResultIsNaN(
+                numeroAnterior * numeroActual
+            );
         } else if (operador === "-") {
-            operacion = numeroAnterior - numeroActual;
-            this.currentResult.textContent = isNaN(operacion)
-                ? "Syntax error"
-                : `${operacion}`;
+            this.currentResult.textContent = verifyResultIsNaN(
+                numeroAnterior - numeroActual
+            );
         } else {
-            operacion = numeroAnterior - numeroActual;
-            this.currentResult.textContent = isNaN(operacion)
-                ? "Syntax error"
-                : `${operacion}`;
+            this.currentResult.textContent = verifyResultIsNaN(
+                numeroAnterior / numeroActual
+            );
         }
 
         this.previousResult.textContent = "";
