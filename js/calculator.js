@@ -70,7 +70,9 @@ class Calculator {
     mostrarOperacion(operador) {
         if (
             this.currentResult.textContent !== "0" &&
-            this.currentResult.textContent !== "Syntax error"
+            this.currentResult.textContent !== "Syntax error" &&
+            this.currentResult.textContent !== "" &&
+            this.operator === ""
         ) {
             this.operator = operador;
             this.previousResult.textContent = `${this.currentResult.textContent} ${this.operator}`;
