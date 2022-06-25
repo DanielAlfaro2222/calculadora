@@ -90,7 +90,9 @@ class Calculator {
         numeroActual = Number(numeroActual);
 
         function verifyResultIsNaN(operacion) {
-            return isNaN(operacion) ? "Syntax error" : `${operacion}`;
+            return isNaN(operacion) || !isFinite(operacion)
+                ? "Syntax error"
+                : `${operacion}`;
         }
 
         if (operador === "+") {
